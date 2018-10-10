@@ -1,0 +1,47 @@
+html, body {
+    font-family: 'Roboto', sans-serif;
+}
+.hidden {
+    display: none;
+}
+
+.book {
+    display: inline-block;
+    width: 300px;
+}
+
+.library-container {
+    margin-top: 30px;
+}
+
+.addNewBookButton {
+    font-size: 20px;
+}
+
+.control-input {
+    float: left;
+    width: 50%;
+    margin: 20px auto;
+}
+
+.control-input label {
+    font-size: 26px;
+}
+
+.control-input legend {
+    font-size: 26px;
+}
+
+.control-input input[type="text"], input[type="number"] {
+    width: 300px;
+    font-size: 18px;
+    padding: 10px;
+    outline:  none;
+    box-sizing: border-box;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
