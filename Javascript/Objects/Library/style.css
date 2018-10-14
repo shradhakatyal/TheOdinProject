@@ -16,6 +16,10 @@ html, body {
 
 .addNewBookButton {
     font-size: 20px;
+    background-color: #1a8cff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 2px;
 }
 
 .control-input {
@@ -45,3 +49,51 @@ html, body {
     -ms-border-radius: 3px;
     -o-border-radius: 3px;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr {
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+tbody:nth-child(2n+1) {
+    background-color: #f2f2f2;
+}
+
+tbody:first-of-type {
+    background-color: #e6e6e6;
+    font-size: 20px;
+}
+
+th {
+    height: 60px;
+}
+
+td {
+    height: 40px;
+}
+
+.delete-button {
+    background-color: #cc0000;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+}
+
+.read-button {
+    background-color: #00cc00;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    padding: 10px 20px;
+}
+
