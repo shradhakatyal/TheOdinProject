@@ -1,21 +1,16 @@
-let myLibrary = [{
-    title: 'test',
-    author: 'test author',
-    pages: 300,
-    isRead: true
-},
-{
-    title: 'test1',
-    author: 'test author 1',
-    pages: 300,
-    isRead: true
-},
-{
-    title: 'test2',
-    author: 'test author 2',
-    pages: 300,
-    isRead: true
-}];
+let myLibrary = [];
+let myBooks = [];
+if(localStorage.myLibrary) {
+    // myLibrary = ;
+    JSON.parse(localStorage.getItem("myLibrary")).forEach((bookObj) => {
+        myLibrary.push(Object.setPrototypeOf(bookObj, Book));
+    });
+    myLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+    for(let i=0;i<myLibrary.length;i++) {
+        myBooks.push(Object.assign(new Book, myLibrary[i]));
+    }
+}
+console.log(myBooks);
 
 function Book(title, author, pages, isRead) {
     this.title = title;
@@ -34,15 +29,25 @@ function toggleRead() {
 
 Book.prototype.toggleRead = toggleRead;
 
-function addBookToLibrary() {
-    let title = document.querySelector('#title').value;
-    let author = document.querySelector('#author').value;
-    let pages = document.querySelector('#pages').value;
-    let isRead = document.getElementById("yes").checked;
+function init() {
+    let node = {
+        title: document.querySelector('#title'),
+        author: document.querySelector('#author'),
+        pages: document.querySelector('#pages'),
+        isRead: document.getElementById("yes")
+    }
 
-    let book = new Book(title, author, pages, isRead);
-    myLibrary.push(book);
-    render(book, myLibrary.length-1);
+    return node;
+}
+
+var el = init();
+
+function addBookToLibrary() {
+    
+    let book = new Book(el.title.value, el.author.value, el.pages.value, el.isRead.checked);
+    myBooks.push(book);
+    localStorage.setItem("myLibrary", JSON.stringify(myBooks));
+    render(book, myBooks.length-1);
 }
 
 
@@ -62,9 +67,22 @@ function render(book, index) {
     document.querySelector('.library-container table').innerHTML += bookHtml;
 }
 
-myLibrary.forEach(function(book, index) {
-    render(book, index);
-});
+// Rendering books on page refresh
+if(myBooks !== []) {
+    myBooks.forEach(function(book, index) {
+        render(book, index);
+    });
+}
+
+
+// Function to validate form 
+function validateForm() {
+    if(el.title.value && el.pages.value && el.author.value) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 document.querySelector('.addNewBookButton').addEventListener('click', (event) => {
     event.preventDefault();
@@ -73,7 +91,11 @@ document.querySelector('.addNewBookButton').addEventListener('click', (event) =>
 
 document.querySelector('form').addEventListener('submit', function(e) {
     e.preventDefault();
-    addBookToLibrary();
+    if(validateForm()) {
+        addBookToLibrary();
+    } else {
+        alert('Please fill all the fields');
+    }
 });
 
 
@@ -89,7 +111,9 @@ function deleteBook(event){
         parent.remove();
 
         // Removes the book object from the myLibrary array
-        myLibrary.splice(index, 1);
+        myBooks.splice(index, 1);
+
+        localStorage.setItem("myLibrary", JSON.stringify(myBooks));
 
         // Sets the data-attributes again to reflect the changes in the books array
         let rows = document.querySelectorAll('tr.book-row');
@@ -103,8 +127,9 @@ const toggleBookRead = (e) => {
     e.preventDefault();
     if(e.target.tagName === "button" || e.target.classList.contains("read-button")) {
         let index = e.target.parentNode.parentNode.getAttribute('data-attribute');
-        myLibrary[index].toggleRead();
-        e.target.innerHTML = `${myLibrary[index].isRead?'Read':'Yet to read'}`;
+        myBooks[index].toggleRead();
+        e.target.innerHTML = `${myBooks[index].isRead?'Read':'Yet to read'}`;
+        localStorage.setItem("myLibrary", JSON.stringify(myBooks));
     }
 }
 document.querySelector('table').addEventListener("click", toggleBookRead);
